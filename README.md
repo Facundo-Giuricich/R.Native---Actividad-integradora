@@ -142,7 +142,20 @@ Ejemplo con adb: `adb shell am start -W -a android.intent.action.VIEW -d "exp://
 
 ## Capturas
 
-Van en la carpeta `capturas/`: Catálogo cargando, con error y con datos; buscador; detalle inexistente; reserva con y sin ejemplares; escáner en sus cuatro estados; notificación recibida; mostrador antes y después de "Entregar al siguiente"; pantalla 404.
+Están en la carpeta [`capturas/`](capturas/), tomadas en un iPhone con Expo Go:
+
+| Archivo | Qué muestra |
+|---|---|
+| `01-carga-inicial.jpeg` | Carga inicial de la app en Expo Go |
+| `03-catalogo-datos.jpeg` | Catálogo con datos, con los accesos a Buscar y Escanear |
+| `04-buscador.jpeg` | Buscador con "potter" y sus resultados |
+| `05-buscador-sin-resultados.jpeg` | Buscador sin resultados (estado vacío) |
+| `07-reserva-sin-ejemplares.jpeg` | Reserva sin ejemplares: ingreso a la lista de espera en el lugar 3 |
+| `10-escaner-bloqueado.jpeg` | Escáner con la cámara bloqueada: "Abrir Ajustes" e ingreso manual |
+| `11-escaner-concedido.jpeg` | Escáner con la cámara funcionando |
+| `extra-mis-reservas.jpeg` | Mis reservas: préstamo con "Recordarme" y "Devolver", y lista de espera con la posición |
+| `extra-reserva-sin-ejemplares-2.jpeg` | Otra reserva sin ejemplares (lugar 1) |
+| `extra-catalogo-inicio.jpeg` | Primera versión del catálogo, antes de cambiar el header |
 
 ## Salida de lint y TypeScript
 
