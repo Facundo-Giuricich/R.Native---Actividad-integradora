@@ -15,7 +15,7 @@ Caso normal (`src/hooks/useLibros.ts`):
 | Render | Qué lo provoca | `libros` | `cargando` | `error` |
 |---|---|---|---|---|
 | 1 | Se monta el Catálogo | `[]` | `true` | `null` |
-| 2 | Llega la respuesta: `setLibros`, `setError(null)` y `setCargando(false)` (líneas 20, 21 y 29) | 16 libros | `false` | `null` |
+| 2 | Llega la respuesta: `setLibros`, `setError(null)` y `setCargando(false)` (líneas 20, 21 y 29) | 31 libros | `false` | `null` |
 
 Después del render 1 se ejecuta el efecto (línea 13), que llama a `obtenerLibros()`. Esa promesa tarda 800 ms. Cuando se resuelve, los tres `set` se hacen en la misma tarea y React los agrupa (*automatic batching*), así que hay **un solo** render más. En total son 2 renders.
 
@@ -26,7 +26,7 @@ Cuando falla y la persona toca "Reintentar":
 | 1 | Montaje | `[]` | `true` | `null` |
 | 2 | `obtenerLibros()` lanza el error: `setError(...)` y `setCargando(false)` (líneas 25 y 29) | `[]` | `false` | "No pudimos cargar el catálogo…" |
 | 3 | Toca "Reintentar": `setCargando(true)`, `setError(null)`, `setIntento(n + 1)` (líneas 43–45, agrupados) | `[]` | `true` | `null` |
-| 4 | Llega la respuesta del segundo pedido | 16 libros | `false` | `null` |
+| 4 | Llega la respuesta del segundo pedido | 31 libros | `false` | `null` |
 
 Entre el render 3 y el 4, como cambió `intento`, React ejecuta primero la limpieza del efecto anterior (`activo = false`, línea 38) y después el efecto nuevo, que hace el segundo pedido.
 
@@ -81,7 +81,7 @@ Usé un número y no otro valor porque:
 | t = 0 ms | Escribe "bor" → `buscarLibros("bor")` (1.400 ms) | "Buscando…" | "Buscando…" |
 | t = 200 ms | Escribe "borges" → `buscarLibros("borges")` (300 ms) | "Buscando…" | "Buscando…". Antes de buscar "borges" se ejecutó la limpieza del efecto de "bor": `vigente = false` |
 | t = 500 ms | Llega la respuesta de "borges" | Los libros de Borges | Los libros de Borges |
-| t = 1.400 ms | Llega la respuesta de "bor" | **Pisa** los resultados: aparecen los libros de "bor" (Borges y "Sobre héroes y tumbas") con "borges" escrito arriba | Sigue mostrando los de Borges: la respuesta de "bor" llega a un efecto con `vigente = false` y se descarta |
+| t = 1.400 ms | Llega la respuesta de "bor" | **Pisa** los resultados con la respuesta vieja de "bor". Con mis datos coinciden (los tres libros de Borges), pero si hubiera un título o autor con "bor" y sin "borges", aparecería aunque arriba diga "borges" | Sigue mostrando los de Borges: la respuesta de "bor" llega a un efecto con `vigente = false` y se descarta |
 
 Con mi código real el caso es todavía más simple, porque tengo un *debounce* de 300 ms (`src/app/buscar.tsx:31`): a los 200 ms la persona sigue escribiendo, así que el temporizador de "bor" se cancela con `clearTimeout` (línea 53) y ese pedido ni siquiera se hace. La bandera `vigente` cubre el caso en que la persona hace una pausa de más de 300 ms y los dos pedidos salen igual.
 
