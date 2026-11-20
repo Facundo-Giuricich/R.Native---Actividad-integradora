@@ -37,5 +37,6 @@ export const radio = {
 export const tamanio = {
   areaTactil: 44,
   icono: 22,
+  iconoGrande: 48,
   alturaCamara: 280,
 };
