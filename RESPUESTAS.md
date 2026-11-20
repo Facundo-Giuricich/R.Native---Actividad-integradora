@@ -15,7 +15,7 @@ Caso normal (`src/hooks/useLibros.ts`):
 | Render | Qué lo provoca | `libros` | `cargando` | `error` |
 |---|---|---|---|---|
 | 1 | Se monta el Catálogo | `[]` | `true` | `null` |
-| 2 | Llega la respuesta: `setLibros`, `setError(null)` y `setCargando(false)` (líneas 20, 21 y 29) | 31 libros | `false` | `null` |
+| 2 | Llega la respuesta: `setLibros`, `setError(null)` y `setCargando(false)` (líneas 20, 21 y 29) | 18 libros | `false` | `null` |
 
 Después del render 1 se ejecuta el efecto (línea 13), que llama a `obtenerLibros()`. Esa promesa tarda 800 ms. Cuando se resuelve, los tres `set` se hacen en la misma tarea y React los agrupa (*automatic batching*), así que hay **un solo** render más. En total son 2 renders.
 
@@ -26,7 +26,7 @@ Cuando falla y la persona toca "Reintentar":
 | 1 | Montaje | `[]` | `true` | `null` |
 | 2 | `obtenerLibros()` lanza el error: `setError(...)` y `setCargando(false)` (líneas 25 y 29) | `[]` | `false` | "No pudimos cargar el catálogo…" |
 | 3 | Toca "Reintentar": `setCargando(true)`, `setError(null)`, `setIntento(n + 1)` (líneas 43–45, agrupados) | `[]` | `true` | `null` |
-| 4 | Llega la respuesta del segundo pedido | 31 libros | `false` | `null` |
+| 4 | Llega la respuesta del segundo pedido | 18 libros | `false` | `null` |
 
 Entre el render 3 y el 4, como cambió `intento`, React ejecuta primero la limpieza del efecto anterior (`activo = false`, línea 38) y después el efecto nuevo, que hace el segundo pedido.
 
@@ -80,8 +80,8 @@ Usé un número y no otro valor porque:
 |---|---|---|---|
 | t = 0 ms | Escribe "bor" → `buscarLibros("bor")` (1.400 ms) | "Buscando…" | "Buscando…" |
 | t = 200 ms | Escribe "borges" → `buscarLibros("borges")` (300 ms) | "Buscando…" | "Buscando…". Antes de buscar "borges" se ejecutó la limpieza del efecto de "bor": `vigente = false` |
-| t = 500 ms | Llega la respuesta de "borges" | Los libros de Borges | Los libros de Borges |
-| t = 1.400 ms | Llega la respuesta de "bor" | **Pisa** los resultados con la respuesta vieja de "bor". Con mis datos coinciden (los tres libros de Borges), pero si hubiera un título o autor con "bor" y sin "borges", aparecería aunque arriba diga "borges" | Sigue mostrando los de Borges: la respuesta de "bor" llega a un efecto con `vigente = false` y se descarta |
+| t = 500 ms | Llega la respuesta de "borges" | *El Aleph* | *El Aleph* |
+| t = 1.400 ms | Llega la respuesta de "bor" | **Pisa** los resultados con la respuesta vieja de "bor". Con mis datos coinciden (solo *El Aleph*), pero si hubiera un título o autor con "bor" y sin "borges", aparecería aunque arriba diga "borges" | Sigue mostrando *El Aleph*: la respuesta de "bor" llega a un efecto con `vigente = false` y se descarta |
 
 Con mi código real el caso es todavía más simple, porque tengo un *debounce* de 300 ms (`src/app/buscar.tsx:31`): a los 200 ms la persona sigue escribiendo, así que el temporizador de "bor" se cancela con `clearTimeout` (línea 53) y ese pedido ni siquiera se hace. La bandera `vigente` cubre el caso en que la persona hace una pausa de más de 300 ms y los dos pedidos salen igual.
 
@@ -185,7 +185,7 @@ Para evitarlo se podría dividir en varios contextos (`RecientesContext`, `Sesio
 
 | Link | Qué ve la persona | Qué queda debajo en la pila | Qué parte de mi código lo decide |
 |---|---|---|---|
-| `bibliotecaipf://libro/9780132350884` | El detalle de *Clean Code*, con el título en el header | Catálogo (`index`) en el Stack de la tab, y `(tabs)` en el Stack raíz | `anchor: 'index'` en `src/app/(tabs)/(catalogo)/_layout.tsx:8` y `anchor: '(tabs)'` en `src/app/_layout.tsx:11` |
+| `bibliotecaipf://libro/9788497592208` | El detalle de *Cien años de soledad*, con el título en el header | Catálogo (`index`) en el Stack de la tab, y `(tabs)` en el Stack raíz | `anchor: 'index'` en `src/app/(tabs)/(catalogo)/_layout.tsx:8` y `anchor: '(tabs)'` en `src/app/_layout.tsx:11` |
 | `bibliotecaipf://libro/123` | "El código no es un ISBN válido" con el link "Volver al catálogo" | Igual que el anterior | La validación de `src/app/(tabs)/(catalogo)/libro/[isbn].tsx:15-16` y el `if (!libro)` de la línea 24 |
 | `bibliotecaipf://buscar?q=borges` | El buscador con "borges" escrito y sus resultados | `(tabs)` con el Catálogo | `anchor: '(tabs)'` en `src/app/_layout.tsx:11`; `q` se lee con `useLocalSearchParams` (`buscar.tsx:16`) |
 | `bibliotecaipf://mostrador` (sin sesión) | No ve el mostrador: queda en el Catálogo | `(tabs)` | `<Stack.Protected guard={sesion}>` en `src/components/NavegadorRaiz.tsx:28`. Con `guard` en `false` la ruta no existe y el router va a la ruta ancla |
@@ -438,7 +438,7 @@ Ninguna situación termina en "nada" ni en "la app se rompe".
 ### E4. Decisiones con argumentos
 
 **a) Identificador: ISBN como parámetro y `key`.**
-Elegí el **ISBN**. Es un identificador real y único por edición, es lo que lee el escáner (EAN-13), así que el código leído **es** la URL (`/libro/9780132350884`) sin tener que traducirlo, y sirve para deep links que cualquiera puede armar. Dos ediciones del mismo título tienen ISBN distinto, y eso está bien: son libros distintos en el estante. El punto débil son los libros **sin ISBN** (muy viejos o apuntes del instituto). Para eso se podría usar un código interno de 13 dígitos con un prefijo propio, y la validación de 13 dígitos seguiría funcionando. Sobre el tipo: `useLocalSearchParams` siempre devuelve **strings** (o arrays de strings). Con un id numérico habría que convertir con `Number()` y validar `NaN`, y además un ISBN como número perdería los ceros iniciales. Como string se compara directo con `libro.isbn` y se valida con una expresión regular (`src/lib/catalogo.ts:4-6`).
+Elegí el **ISBN**. Es un identificador real y único por edición, es lo que lee el escáner (EAN-13), así que el código leído **es** la URL (`/libro/9788497592208`) sin tener que traducirlo, y sirve para deep links que cualquiera puede armar. Dos ediciones del mismo título tienen ISBN distinto, y eso está bien: son libros distintos en el estante. El punto débil son los libros **sin ISBN** (muy viejos o apuntes del instituto). Para eso se podría usar un código interno de 13 dígitos con un prefijo propio, y la validación de 13 dígitos seguiría funcionando. Sobre el tipo: `useLocalSearchParams` siempre devuelve **strings** (o arrays de strings). Con un id numérico habría que convertir con `Number()` y validar `NaN`, y además un ISBN como número perdería los ceros iniciales. Como string se compara directo con `libro.isbn` y se valida con una expresión regular (`src/lib/catalogo.ts:4-6`).
 
 **b) Estructuras: clase `Pila` con `#items`.**
 Usé las **clases**. Me dieron:

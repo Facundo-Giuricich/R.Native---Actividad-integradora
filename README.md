@@ -24,7 +24,7 @@ npm test            # tests de Pila y Cola (jest-expo)
 
 **Usuario del personal** (fijo en `src/constants/biblioteca.ts`): usuario `biblioteca`, clave `ipf2026`.
 
-**Libros para probar el escáner:** *Clean Code* (`9780132350884`) y *Cien años de soledad* (`9788497592208`) tienen su ISBN real. Si se prueba con otros libros, hay que cambiar esos dos ISBN en `src/data/libros.ts`.
+**Catálogo:** 18 libros: *Cien años de soledad*, *El Aleph*, *El túnel*, la colección completa de Harry Potter y ocho libros de Stephen King. Para probar el escáner, *Cien años de soledad* (`9788497592208`) y *El Aleph* (`9789875666481`) llevan su ISBN real. Si se prueba con otros libros, hay que cambiar esos ISBN en `src/data/libros.ts`.
 
 ## Estructura del proyecto
 
@@ -125,7 +125,7 @@ En Expo Go se usa la forma `exp://IP:8081/--/ruta` (la IP la muestra `npx expo s
 
 | Link | Qué debería pasar |
 |---|---|
-| `bibliotecaipf://libro/9780132350884` | Detalle de *Clean Code*, con el Catálogo debajo |
+| `bibliotecaipf://libro/9788497592208` | Detalle de *Cien años de soledad*, con el Catálogo debajo |
 | `bibliotecaipf://libro/123` | Mensaje "El código no es un ISBN válido" con link al Catálogo |
 | `bibliotecaipf://buscar?q=borges` | Buscador con "borges" y sus resultados, con las tabs debajo |
 | `bibliotecaipf://mostrador` | Sin sesión, la ruta está protegida y no se muestra |
