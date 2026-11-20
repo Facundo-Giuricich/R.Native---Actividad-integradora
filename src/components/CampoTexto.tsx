@@ -2,7 +2,6 @@ import { StyleSheet, TextInput, type TextInputProps } from 'react-native';
 
 import { colores, espaciado, fuente, radio, tamanio } from '../constants/tema';
 
-// TextInput con los estilos de la app.
 export function CampoTexto(props: TextInputProps) {
   return <TextInput placeholderTextColor={colores.textoSuave} {...props} style={estilos.campo} />;
 }

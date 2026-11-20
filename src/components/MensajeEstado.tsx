@@ -9,10 +9,9 @@ type Props = {
   titulo: string;
   detalle?: string;
   esError?: boolean;
-  children?: ReactNode; // acción para salir del estado (Reintentar, Volver…)
+  children?: ReactNode;
 };
 
-// Sirve para los estados de error y de lista vacía.
 export function MensajeEstado({ icono, titulo, detalle, esError = false, children }: Props) {
   return (
     <View style={estilos.contenedor}>

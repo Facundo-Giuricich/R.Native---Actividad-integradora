@@ -8,7 +8,7 @@ export type Libro = {
 
 export type Prestamo = {
   isbn: string;
-  vence: number; // fecha de devolución en milisegundos
+  vence: number;
   origen: 'estante' | 'espera';
   notificacionId: string | null;
 };

@@ -1,7 +1,6 @@
 export class Pila<T> {
   #items: T[];
 
-  // Recibe los elementos de la base al tope, para poder copiar una pila.
   constructor(items: T[] = []) {
     this.#items = [...items];
   }
@@ -26,7 +25,6 @@ export class Pila<T> {
     return this.#items.length;
   }
 
-  // De la base al tope.
   aArray(): T[] {
     return [...this.#items];
   }

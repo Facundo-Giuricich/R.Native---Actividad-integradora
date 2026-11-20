@@ -7,7 +7,6 @@ export function useLibros() {
   const [libros, setLibros] = useState<Libro[]>([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  // Cambiar este número vuelve a ejecutar el efecto (eso es "reintentar").
   const [intento, setIntento] = useState(0);
 
   useEffect(() => {
@@ -33,7 +32,6 @@ export function useLibros() {
 
     cargar();
 
-    // Si la pantalla se desmonta o se reintenta, la respuesta vieja se ignora.
     return () => {
       activo = false;
     };

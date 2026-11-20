@@ -10,7 +10,6 @@ type Props = {
   onAbrir: (isbn: string) => void;
 };
 
-// Alternativa al escáner: siempre se puede escribir el ISBN a mano.
 export function IngresoIsbn({ onAbrir }: Props) {
   const [texto, setTexto] = useState('');
   const [error, setError] = useState<string | null>(null);

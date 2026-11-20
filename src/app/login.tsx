@@ -13,7 +13,6 @@ export default function Login() {
   const [error, setError] = useState<string | null>(null);
 
   function ingresar() {
-    // Si es correcto, Stack.Protected saca esta pantalla y el modal se cierra solo.
     if (!iniciarSesion(usuario, clave)) {
       setError('El usuario o la clave no son correctos. Revisalos y probá de nuevo.');
     }

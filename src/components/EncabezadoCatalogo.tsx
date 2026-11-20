@@ -7,11 +7,9 @@ import { useBiblioteca } from '../context/BibliotecaContext';
 import { buscarLibroPorIsbn } from '../lib/catalogo';
 import { Boton } from './Boton';
 
-// Parte de arriba del catálogo: accesos y "Vistos recientemente".
 export function EncabezadoCatalogo() {
   const { recientes } = useBiblioteca();
 
-  // aArray va de la base al tope: se toman los últimos y se invierten.
   const ultimos = recientes
     .aArray()
     .slice(-CANTIDAD_RECIENTES)

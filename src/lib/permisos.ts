@@ -3,8 +3,6 @@ import { Camera, type PermissionResponse } from 'expo-camera';
 import type { EstadoPermiso, Recurso } from '../types';
 import { consultarPermisoNotificaciones, pedirPermisoNotificaciones } from './notificaciones';
 
-// Convierte la respuesta del sistema en uno de los estados que muestra la app.
-// canAskAgain es lo que distingue "todavía se puede preguntar" de "bloqueado".
 export function aEstadoPermiso(respuesta: PermissionResponse): EstadoPermiso {
   if (respuesta.granted) {
     return 'concedido';

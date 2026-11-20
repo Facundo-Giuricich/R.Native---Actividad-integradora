@@ -13,13 +13,11 @@ import { buscarLibroPorIsbn } from '../lib/catalogo';
 export default function Escanear() {
   const { estado } = usePermiso('camara');
   const [aviso, setAviso] = useState<string | null>(null);
-  // Se usan refs porque cambian al instante, sin esperar un nuevo render.
   const yaNavego = useRef(false);
   const ultimoDesconocido = useRef<string | null>(null);
 
   function abrirLibro(isbn: string) {
     yaNavego.current = true;
-    // replace: al volver atrás desde el detalle no se vuelve al escáner.
     router.replace(`/libro/${isbn}`);
   }
 
@@ -31,7 +29,6 @@ export default function Escanear() {
       abrirLibro(data);
       return;
     }
-    // El mismo código desconocido avisa una sola vez.
     if (ultimoDesconocido.current !== data) {
       ultimoDesconocido.current = data;
       setAviso(`El código ${data} no está en el catálogo. Podés seguir escaneando.`);

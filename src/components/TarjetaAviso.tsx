@@ -9,7 +9,6 @@ type Props = {
   onDescartar: () => void;
 };
 
-// Aviso dentro de la app, para cuando las notificaciones no están permitidas.
 export function TarjetaAviso({ aviso, onDescartar }: Props) {
   return (
     <View style={estilos.tarjeta} accessibilityLiveRegion="polite">

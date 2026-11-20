@@ -13,7 +13,6 @@ import { formatearFecha, sumarDias } from '../../lib/fechas';
 export default function ConfirmarReserva() {
   const { isbn } = useLocalSearchParams<{ isbn: string }>();
   const { disponibles, esperas, yaLoTengo, reservar } = useBiblioteca();
-  // La fecha se toma una sola vez, al abrir la confirmación.
   const [ahora] = useState(() => Date.now());
 
   const libro = esIsbnValido(isbn) ? buscarLibroPorIsbn(isbn) : undefined;
@@ -45,7 +44,6 @@ export default function ConfirmarReserva() {
 
   function confirmar() {
     reservar(isbnLibro);
-    // dismissTo cierra el modal y lleva a /reservas: "atrás" ya no vuelve acá.
     router.dismissTo('/reservas');
   }
 

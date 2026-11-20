@@ -30,7 +30,6 @@ export default function MisReservas() {
     } else if (permisoNotificaciones === 'concedido') {
       activarRecordatorio(isbn);
     } else {
-      // El permiso se pide recién acá, al activar el interruptor.
       router.push({ pathname: '/permisos/[recurso]', params: { recurso: 'notificaciones', isbn } });
     }
   }

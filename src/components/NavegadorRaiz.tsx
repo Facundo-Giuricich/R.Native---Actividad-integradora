@@ -10,7 +10,6 @@ export function NavegadorRaiz() {
     <Stack
       screenOptions={{
         headerTintColor: colores.primario,
-        // Con fondo propio, el header de iOS 26 deja de ser transparente y no tapa el contenido.
         headerStyle: { backgroundColor: colores.superficie },
       }}>
       <Stack.Screen name="(tabs)" options={{ headerShown: false, title: 'Inicio' }} />

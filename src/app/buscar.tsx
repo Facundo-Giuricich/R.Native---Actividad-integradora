@@ -12,7 +12,6 @@ import { buscarLibros } from '../lib/api';
 import type { Libro } from '../types';
 
 export default function Buscar() {
-  // La búsqueda vive en la URL: /buscar?q=borges
   const { q } = useLocalSearchParams<{ q?: string }>();
   const texto = q ?? '';
   const hayTexto = texto.trim() !== '';
@@ -27,7 +26,6 @@ export default function Buscar() {
     }
     let vigente = true;
 
-    // Debounce: espera 300 ms sin escribir antes de buscar.
     const temporizador = setTimeout(async () => {
       try {
         const datos = await buscarLibros(texto);
@@ -46,8 +44,6 @@ export default function Buscar() {
       }
     }, DEMORA_BUSQUEDA_MS);
 
-    // Al cambiar el texto se cancela el temporizador y se descarta
-    // la respuesta de la búsqueda anterior, aunque llegue después.
     return () => {
       vigente = false;
       clearTimeout(temporizador);
@@ -57,7 +53,6 @@ export default function Buscar() {
   function cambiarTexto(nuevo: string) {
     setCargando(nuevo.trim() !== '');
     setError(null);
-    // setParams cambia la URL sin apilar una pantalla nueva.
     router.setParams({ q: nuevo });
   }
 

@@ -61,7 +61,6 @@ export function BibliotecaProvider({ children }: { children: ReactNode }) {
   const [avisos, setAvisos] = useState<Aviso[]>([]);
   const [sesion, setSesion] = useState(false);
 
-  // Se calcula a partir del dato original: no se guarda en el estado.
   const disponibles = useCallback(
     (isbn: string) => {
       const libro = buscarLibroPorIsbn(isbn);
@@ -102,7 +101,6 @@ export function BibliotecaProvider({ children }: { children: ReactNode }) {
         ]);
         return { tipo: 'prestamo', vence };
       }
-      // Nunca se modifica la cola que está en el estado: se crea una nueva.
       const nueva = new Cola(esperas[isbn]?.aArray() ?? []);
       nueva.encolar(MI_NOMBRE);
       setEsperas((anteriores) => ({ ...anteriores, [isbn]: nueva }));
@@ -183,7 +181,6 @@ export function BibliotecaProvider({ children }: { children: ReactNode }) {
             notificacionId: null,
           },
         ]);
-        // Se consulta el permiso en este momento: pudo cambiar en Ajustes.
         if (await notificacionesPermitidas()) {
           await avisarLibroDisponible(titulo);
         } else {

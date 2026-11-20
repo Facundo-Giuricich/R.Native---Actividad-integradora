@@ -4,7 +4,6 @@ import { Pressable, StyleSheet, Text } from 'react-native';
 import { colores, espaciado, fuente, tamanio } from '../constants/tema';
 import { useBiblioteca } from '../context/BibliotecaContext';
 
-// Link "Personal" del header: con sesión va al mostrador, sin sesión al login.
 export function BotonPersonal() {
   const { sesion } = useBiblioteca();
 

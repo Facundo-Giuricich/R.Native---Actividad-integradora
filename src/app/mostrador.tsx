@@ -47,7 +47,6 @@ export default function Mostrador() {
         }
       />
       <View style={estilos.pie}>
-        {/* Al cerrar sesión, Stack.Protected saca el mostrador del historial. */}
         <Boton titulo="Cerrar sesión" icono="log-out-outline" variante="peligro" onPress={cerrarSesion} />
       </View>
     </View>

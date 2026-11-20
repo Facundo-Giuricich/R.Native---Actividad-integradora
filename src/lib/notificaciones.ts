@@ -15,7 +15,6 @@ export function configurarNotificaciones(): void {
   });
 }
 
-// En Android 13+ el diálogo del permiso solo aparece si ya existe un canal.
 async function crearCanal(): Promise<void> {
   if (Platform.OS === 'android') {
     await Notifications.setNotificationChannelAsync(CANAL_PRESTAMOS, {

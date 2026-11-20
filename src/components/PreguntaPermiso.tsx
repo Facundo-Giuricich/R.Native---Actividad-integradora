@@ -12,10 +12,9 @@ import { Cargando } from './Cargando';
 
 type Props = {
   recurso: Recurso;
-  isbn?: string; // préstamo al que se le activa el recordatorio
+  isbn?: string;
 };
 
-// Pantalla previa al diálogo del sistema: beneficio en una frase y un único botón.
 export function PreguntaPermiso({ recurso, isbn }: Props) {
   const { estado, pedir } = usePermiso(recurso);
   const { activarRecordatorio } = useBiblioteca();
