@@ -1,6 +1,6 @@
 import type { Libro } from '../types';
 
-// Cien años de soledad y El Aleph llevan su ISBN real, para probar el escáner.
+// ISBN de ediciones en español. Para probar el escáner, el ISBN tiene que coincidir con el de la contratapa del libro.
 export const LIBROS: Libro[] = [
   { isbn: '9788497592208', titulo: 'Cien años de soledad', autor: 'Gabriel García Márquez', anio: 1967, ejemplares: 1 },
   { isbn: '9789875666481', titulo: 'El Aleph', autor: 'Jorge Luis Borges', anio: 1949, ejemplares: 2 },

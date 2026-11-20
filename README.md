@@ -24,7 +24,7 @@ npm test            # tests de Pila y Cola (jest-expo)
 
 **Usuario del personal** (fijo en `src/constants/biblioteca.ts`): usuario `biblioteca`, clave `ipf2026`.
 
-**Catálogo:** 18 libros: *Cien años de soledad*, *El Aleph*, *El túnel*, la colección completa de Harry Potter y ocho libros de Stephen King. Para probar el escáner, *Cien años de soledad* (`9788497592208`) y *El Aleph* (`9789875666481`) llevan su ISBN real. Si se prueba con otros libros, hay que cambiar esos ISBN en `src/data/libros.ts`.
+**Catálogo:** 18 libros: *Cien años de soledad*, *El Aleph*, *El túnel*, la colección completa de Harry Potter y ocho libros de Stephen King. Para probar el escáner, el ISBN de `src/data/libros.ts` tiene que coincidir con el de la contratapa del libro que se escanea; si no coincide, se cambia ahí.
 
 ## Estructura del proyecto
 
