@@ -7,7 +7,12 @@ export function NavegadorRaiz() {
   const { sesion } = useBiblioteca();
 
   return (
-    <Stack screenOptions={{ headerTintColor: colores.primario }}>
+    <Stack
+      screenOptions={{
+        headerTintColor: colores.primario,
+        // Con fondo propio, el header de iOS 26 deja de ser transparente y no tapa el contenido.
+        headerStyle: { backgroundColor: colores.superficie },
+      }}>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="buscar" options={{ title: 'Buscar' }} />
       <Stack.Screen name="escanear" options={{ title: 'Escanear' }} />
