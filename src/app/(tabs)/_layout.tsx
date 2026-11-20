@@ -15,14 +15,14 @@ export default function TabsLayout() {
         options={{
           title: 'Catálogo',
           headerShown: false,
-          tabBarIcon: ({ color, size }) => <Ionicons name="library" color={color} size={size} />,
+          tabBarIcon: ({ color, size }) => <Ionicons name="library" color={color as string} size={size} />,
         }}
       />
       <Tabs.Screen
         name="reservas"
         options={{
           title: 'Mis reservas',
-          tabBarIcon: ({ color, size }) => <Ionicons name="bookmark" color={color} size={size} />,
+          tabBarIcon: ({ color, size }) => <Ionicons name="bookmark" color={color as string} size={size} />,
         }}
       />
     </Tabs>
